@@ -1,0 +1,8 @@
+version = 1
+revision = 3
+requires-python = ">=3.9"
+
+[[package]]
+name = "pyrvo2"
+version = "2.0.3"
+source = { editable = "." }

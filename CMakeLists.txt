@@ -55,7 +55,11 @@ option(ENABLE_CMAKE_EXPERIMENTAL_FEATURES
 
 include(CTest)
 
-if(WIN32)
+# Python bindings option (must be declared early to affect library type)
+option(BUILD_PYTHON_BINDINGS "Build Python extension module" OFF)
+
+if(WIN32 OR BUILD_PYTHON_BINDINGS)
+  # Static library on Windows or when building Python wheel
   set(BUILD_SHARED_LIBS OFF)
 else()
   option(BUILD_SHARED_LIBS "Build all libraries as shared" ON)
@@ -352,5 +356,24 @@ set(CPACK_RPM_PACKAGE_AUTOREQPROV ON)
 set(CPACK_RPM_PACKAGE_LICENSE "ASL 2.0")
 set(CPACK_RPM_PACKAGE_REQUIRES)
 set(CPACK_RPM_PACKAGE_URL ${PROJECT_HOMEPAGE_URL})
+
+# Python bindings (BUILD_PYTHON_BINDINGS option declared earlier)
+if(BUILD_PYTHON_BINDINGS)
+  find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
+  find_package(Cython MODULE REQUIRED VERSION 3.0)
+  include(UseCython)
+
+  # Transpile Cython to C++
+  cython_transpile(src/rvo2.pyx LANGUAGE CXX OUTPUT_VARIABLE rvo2_cxx)
+
+  # Build Python extension
+  python_add_library(rvo2 MODULE "${rvo2_cxx}" WITH_SOABI)
+  target_link_libraries(rvo2 PRIVATE ${RVO_LIBRARY})
+  target_include_directories(rvo2 PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_BINARY_DIR}/src)
+
+  install(TARGETS rvo2 DESTINATION .)
+endif()
 
 include(CPack)

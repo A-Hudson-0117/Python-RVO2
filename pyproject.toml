@@ -1,0 +1,38 @@
+[build-system]
+requires = [
+    "scikit-build-core>=0.10",
+    "cython>=3.0",
+    "cython-cmake>=0.2",
+]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "pyrvo2"
+version = "2.0.3"
+description = "Python bindings for RVO2 Optimal Reciprocal Collision Avoidance"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Cython",
+    "Topic :: Games/Entertainment :: Simulation",
+    "Topic :: Scientific/Engineering",
+]
+
+[project.urls]
+Homepage = "https://github.com/sybrenstuvel/Python-RVO2"
+Repository = "https://github.com/sybrenstuvel/Python-RVO2"
+
+[tool.scikit-build]
+cmake.minimum-version = "3.26"
+cmake.build-type = "Release"
+wheel.packages = []
+
+[tool.scikit-build.cmake.define]
+BUILD_PYTHON_BINDINGS = "ON"

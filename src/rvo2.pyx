@@ -15,7 +15,7 @@ cdef extern from "RVOSimulator.h" namespace "RVO":
     cdef const size_t RVO_ERROR
 
 
-cdef extern from "RVOSimulator.h" namespace "RVO":
+cdef extern from "Line.h" namespace "RVO":
     cdef cppclass Line:
         Vector2 point
         Vector2 direction
@@ -206,8 +206,11 @@ cdef class PyRVOSimulator:
         self.thisptr.setAgentMaxSpeed(agent_no, max_speed)
     def setAgentNeighborDist(self, size_t agent_no, float neighbor_dist):
         self.thisptr.setAgentNeighborDist(agent_no, neighbor_dist)
+<<<<<<< Updated upstream
     def setAgentNeighborDist(self, size_t agent_no, float neighbor_dist):
         self.thisptr.setAgentNeighborDist(agent_no, neighbor_dist)
+=======
+>>>>>>> Stashed changes
     def setAgentPosition(self, size_t agent_no, tuple position):
         cdef Vector2 c_pos = Vector2(position[0], position[1])
         self.thisptr.setAgentPosition(agent_no, c_pos)
